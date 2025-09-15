@@ -2,9 +2,10 @@ const express = require("express");
 const { generateSlug } = require("random-word-slugs");
 const { ECSClient, RunTaskCommand } = require("@aws-sdk/client-ecs");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
-const PORT = 9000;
+const PORT = process.env.PORT  || 9000;
 
 app.use(cors());
 
@@ -59,6 +60,13 @@ app.post("/project", async (req, res) => {
       url: `http://${projectSlug}.localhost:8000`,
     },
   });
+});
+
+const frontendPath = path.join(__dirname, "frontend", "dist");
+app.use(express.static(frontendPath));
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.listen(PORT, () => {
