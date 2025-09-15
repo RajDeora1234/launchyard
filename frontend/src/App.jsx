@@ -16,7 +16,7 @@ const handleDeploy = async () => {
   }
 
   try {
-    const response = await axios.post("http://localhost:9000/project", {
+    const response = await axios.post("https://launchyard.onrender.com/project", {
       gitURL: gitUrl,
       slug: projectName,
     });
